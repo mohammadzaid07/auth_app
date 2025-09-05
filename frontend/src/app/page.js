@@ -8,7 +8,7 @@ export default function LandingPage() {
       <div className="max-w-lg w-full bg-white rounded-2xl shadow-xl p-10">
         {/* Title */}
         <h1 className="text-4xl font-extrabold text-indigo-700 mb-4">
-          2FA Authentication
+          2FA Auth System
         </h1>
         {/* Subtitle */}
         <p className="text-gray-600 mb-6 leading-relaxed">
