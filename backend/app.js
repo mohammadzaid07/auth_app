@@ -9,14 +9,28 @@ connectDB();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3001",
+  "https://auth-175ttv08o-mohammad-zaid-07.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: (origin, callback) => {
+      // allow requests with no origin (e.g. mobile apps, curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
 
 app.use(cookieParser());
 app.use(express.json()); // Middleware to parse JSON
