@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 
 export default function VerifyOtpClient() {
     const router = useRouter();
@@ -25,7 +25,7 @@ export default function VerifyOtpClient() {
     useEffect(() => {
         let timer;
         if (countdown > 0) {
-            timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
+            timer = setInterval(() => setCountdown((p) => p - 1), 1000);
         }
         return () => clearInterval(timer);
     }, [countdown]);
@@ -34,20 +34,20 @@ export default function VerifyOtpClient() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch("/api/auth/verify-otp", {
+            const res = await fetch("/api/auth/verify-otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, otp }),
             });
-            const data = await response.json();
-            if (!response.ok) alert(data.message || "Error verifying OTP");
+            const data = await res.json();
+            if (!res.ok) alert(data.message || "Error verifying OTP");
             else {
                 alert("Email verified ✅ Please login");
                 router.push("/login");
             }
-        } catch (error) {
-            console.error("Error verifying OTP:", error);
-            alert("Unexpected error. Try again.");
+        } catch (err) {
+            console.error(err);
+            alert("Unexpected error, try again.");
         } finally {
             setLoading(false);
         }
@@ -56,20 +56,20 @@ export default function VerifyOtpClient() {
     const handleResend = async () => {
         setResendLoading(true);
         try {
-            const response = await fetch("/api/auth/resend-otp", {
+            const res = await fetch("/api/auth/resend-otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
             });
-            const data = await response.json();
-            if (!response.ok) alert(data.message || "Error resending OTP");
+            const data = await res.json();
+            if (!res.ok) alert(data.message || "Error resending OTP");
             else {
-                alert("OTP resent 📧 Check your email!");
+                alert("OTP resent 📧");
                 setCountdown(60);
             }
-        } catch (error) {
-            console.error("Error resending OTP:", error);
-            alert("Unexpected error. Try again.");
+        } catch (err) {
+            console.error(err);
+            alert("Unexpected error, try again.");
         } finally {
             setResendLoading(false);
         }
@@ -93,9 +93,7 @@ export default function VerifyOtpClient() {
                     Verify Your Email 🔒
                 </h2>
 
-                {email && (
-                    <Input label="Email" value={email} disabled className="mb-4" />
-                )}
+                {email && <Input label="Email" value={email} disabled className="mb-4" />}
 
                 <Input
                     label="OTP"
@@ -127,10 +125,7 @@ export default function VerifyOtpClient() {
 
                 <p className="mt-6 text-sm text-gray-600 text-center">
                     Already verified?{" "}
-                    <Link
-                        href="/login"
-                        className="text-indigo-600 font-semibold hover:underline"
-                    >
+                    <Link href="/login" className="text-indigo-600 font-semibold hover:underline">
                         Login
                     </Link>
                 </p>
