@@ -16,8 +16,6 @@ export default function VerifyOtpPage() {
   const [countdown, setCountdown] = useState(0);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
-  // Get email from URL using window.location instead of useSearchParams
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
@@ -47,9 +45,9 @@ export default function VerifyOtpPage() {
       const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, otp }),
       });
-
       const data = await res.json();
       if (!res.ok) {
         alert(data.message || "Error verifying OTP");
