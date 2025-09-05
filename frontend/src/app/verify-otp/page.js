@@ -7,6 +7,9 @@ import { ArrowLeft } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 
+// ⬅️ Force Next.js to treat this as dynamic-only (no prerender at build)
+export const dynamic = "force-dynamic";
+
 function VerifyOtpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -117,8 +120,8 @@ function VerifyOtpContent() {
             countdown > 0
               ? `Resend OTP in ${countdown}s`
               : resendLoading
-              ? "Resending..."
-              : "Resend OTP"
+                ? "Resending..."
+                : "Resend OTP"
           }
           className="w-full mt-4 py-3 rounded-xl"
         />
