@@ -7,16 +7,16 @@ import { ArrowLeft } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 
-// 🚀 This tells Next.js not to pre-render this page
+// 🚀 Force this page to render only on the client (no pre-render)
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 export default function VerifyOtpPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const emailFromQuery = searchParams.get("email");
-
   const [email, setEmail] = useState(emailFromQuery || "");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -130,8 +130,8 @@ export default function VerifyOtpPage() {
             countdown > 0
               ? `Resend OTP in ${countdown}s`
               : resendLoading
-              ? "Resending..."
-              : "Resend OTP"
+                ? "Resending..."
+                : "Resend OTP"
           }
           className="w-full mt-4 py-3 rounded-xl"
         />
