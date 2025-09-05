@@ -1,17 +1,17 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 
-// 🚀 This tells Next.js not to pre-render this page at build time
+// 🚀 This tells Next.js not to pre-render this page
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
-function VerifyOtpContent() {
+export default function VerifyOtpPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -130,8 +130,8 @@ function VerifyOtpContent() {
             countdown > 0
               ? `Resend OTP in ${countdown}s`
               : resendLoading
-                ? "Resending..."
-                : "Resend OTP"
+              ? "Resending..."
+              : "Resend OTP"
           }
           className="w-full mt-4 py-3 rounded-xl"
         />
@@ -144,14 +144,5 @@ function VerifyOtpContent() {
         </p>
       </form>
     </div>
-  );
-}
-
-// ✅ Suspense wrapper (so `useSearchParams` won’t break)
-export default function VerifyOtpPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <VerifyOtpContent />
-    </Suspense>
   );
 }
