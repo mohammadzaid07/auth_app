@@ -1,18 +1,20 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 
-// ⬅️ Force Next.js to treat this as dynamic-only (no prerender at build)
+// 🚀 This tells Next.js not to pre-render this page at build time
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 function VerifyOtpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const emailFromQuery = searchParams.get("email");
 
   const [email, setEmail] = useState(emailFromQuery || "");
@@ -21,10 +23,12 @@ function VerifyOtpContent() {
   const [resendLoading, setResendLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
+  // Redirect if email not present
   useEffect(() => {
     if (!emailFromQuery) router.push("/signup");
   }, [emailFromQuery, router]);
 
+  // Countdown for resend button
   useEffect(() => {
     let timer;
     if (countdown > 0) {
@@ -33,6 +37,7 @@ function VerifyOtpContent() {
     return () => clearInterval(timer);
   }, [countdown]);
 
+  // Handle OTP verification
   const handleVerify = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -42,9 +47,11 @@ function VerifyOtpContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
       });
+
       const data = await res.json();
-      if (!res.ok) alert(data.message || "Error verifying OTP");
-      else {
+      if (!res.ok) {
+        alert(data.message || "Error verifying OTP");
+      } else {
         alert("Email verified ✅ Please login");
         router.push("/login");
       }
@@ -56,6 +63,7 @@ function VerifyOtpContent() {
     }
   };
 
+  // Handle OTP resend
   const handleResend = async () => {
     setResendLoading(true);
     try {
@@ -64,9 +72,11 @@ function VerifyOtpContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
+
       const data = await res.json();
-      if (!res.ok) alert(data.message || "Error resending OTP");
-      else {
+      if (!res.ok) {
+        alert(data.message || "Error resending OTP");
+      } else {
         alert("OTP resent 📧");
         setCountdown(60);
       }
@@ -137,6 +147,7 @@ function VerifyOtpContent() {
   );
 }
 
+// ✅ Suspense wrapper (so `useSearchParams` won’t break)
 export default function VerifyOtpPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
