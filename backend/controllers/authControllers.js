@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const SECRET_KEY = "f3b4230dbac3956955afbc6fdbc6b55d974f6e6f9437d3a343e5e18390cfe6ea";
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-const SECRET_KEY = "f3b4230dbac3956955afbc6fdbc6b55d974f6e6f9437d3a343e5e18390cfe6ea";
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 export default function authenticateToken(req, res, next) {
   // Ensure req.cookies exists
