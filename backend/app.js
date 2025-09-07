@@ -11,7 +11,10 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:3001",
-  "https://auth-app-six-orpin.vercel.app"
+  "https://auth-app-six-orpin.vercel.app",
+  "https://auth-app-mohammad-zaid-07.vercel.app",
+  "https://auth-app-git-main-mohammad-zaid-07.vercel.app",
+  "https://auth-dpdoev8bc-mohammad-zaid-07.vercel.app"
 ];
 
 app.use(
