@@ -12,7 +12,6 @@ export async function apiRequest(endpoint, method = "GET", body) {
       body: body ? JSON.stringify(body) : undefined,
     });
 
-    // ✅ Handle non-2xx responses
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
       throw new Error(
