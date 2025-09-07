@@ -5,7 +5,7 @@ import Button from "./Button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { apiRequest } from "../utils/api"; // ✅ adjust path based on your folder structure
+import { apiRequest } from "../lib/api.js";
 
 export default function AuthForm({ type }) {
   const [form, setForm] = useState({
@@ -161,8 +161,8 @@ export default function AuthForm({ type }) {
             )
           }
           className={`w-full mt-6 py-3 rounded-xl shadow-md transition cursor-pointer ${loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-indigo-600 hover:bg-indigo-700 text-white"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700 text-white"
             }`}
         />
 
