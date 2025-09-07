@@ -13,19 +13,23 @@ const allowedOrigins = [
   "http://localhost:3001",
   "https://auth-app-six-orpin.vercel.app",
   "https://auth-app-mohammad-zaid-07.vercel.app",
-  "https://auth-app-git-main-mohammad-zaid-07.vercel.app",
-  "https://auth-dpdoev8bc-mohammad-zaid-07.vercel.app"
 ];
+
+// ✅ Use regex to allow all Vercel preview deployments for your project
+const vercelPreviewRegex = /^https:\/\/auth-app-.*-mohammad-zaid-07\.vercel\.app$/;
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // allow requests with no origin (e.g. mobile apps, curl)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
+      if (!origin) return callback(null, true); // allow mobile apps, curl, Postman
+      if (
+        allowedOrigins.includes(origin) ||
+        vercelPreviewRegex.test(origin)
+      ) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        console.warn("Blocked by CORS:", origin);
+        return callback(new Error("Not allowed by CORS"));
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -34,11 +38,13 @@ app.use(
   })
 );
 
+// ✅ Handle preflight explicitly
+app.options("*", cors());
+
 app.use(cookieParser());
-app.use(express.json()); // Middleware to parse JSON
+app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
