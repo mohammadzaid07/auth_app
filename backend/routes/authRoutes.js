@@ -11,5 +11,9 @@ router.post("/match-otp", authController.matchOTP);
 router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 router.get("/dashboard", authMiddleware, authController.dashboard);
+router.post("/verify-color-password", authController.verifyColorPassword);
+router.post("/verify-graphical-password", authController.verifyGraphicalPassword);
+router.post("/forgot-password", authController.forgotPassword);
+router.post("/reset-password-otp", authController.resetPasswordWithOtp);
 
 export default router;

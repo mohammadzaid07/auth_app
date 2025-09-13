@@ -48,19 +48,16 @@ export default function AuthForm({ type }) {
     e.preventDefault();
 
     if (validateForm()) {
+      setLoading(true);
       try {
-        setLoading(true);
-
-        const endpoint = type === "signup" ? "/api/auth/register" : "/api/auth/login";
-
-        // ✅ Use apiRequest helper
-        const data = await apiRequest(endpoint, "POST", form);
-
         if (type === "signup") {
-          alert("Account created! OTP sent to your email.");
-          router.push(`/verify-otp?email=${form.email}`);
+          // For SIGNUP: Save initial data and go to the color password page
+          sessionStorage.setItem("userData", JSON.stringify(form));
+          router.push("/color-password");
         } else {
-          alert("OTP sent to your email. Please verify.");
+          // For LOGIN: Validate password and send OTP, then go to OTP verification page
+          const data = await apiRequest("/api/auth/login", "POST", form);
+          alert(data.message); // Informs user that OTP was sent
           router.push(`/verify?email=${form.email}`);
         }
       } catch (error) {
@@ -125,6 +122,17 @@ export default function AuthForm({ type }) {
           className="text-gray-800"
         />
         {errors.password && <p className="text-red-600 text-sm">{errors.password}</p>}
+
+        {type === "login" && (
+          <div className="mt-4 text-sm text-right">
+            <Link
+              href="/forgot-password" // This points to the new page we created
+              className="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              Reset Password or Forgot Password
+            </Link>
+          </div>
+        )}
 
         <Button
           type="submit"

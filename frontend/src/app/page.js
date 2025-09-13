@@ -8,24 +8,20 @@ export default function LandingPage() {
       <div className="max-w-lg w-full bg-white rounded-2xl shadow-xl p-10">
         {/* Title */}
         <h1 className="text-4xl font-extrabold text-indigo-700 mb-4">
-          2FA Auth System
+          Multi-Factor Authentication System
         </h1>
         {/* Subtitle */}
         <p className="text-gray-600 mb-6 leading-relaxed">
-          Add an extra layer of security to your account with{" "}
+          Secure your account with multiple layers of protection, including{" "}
+          <span className="text-indigo-600 font-semibold">
+            Graphical Passwords
+          </span>{" "}
+          and{" "}
           <span className="text-indigo-600 font-semibold">
             One-Time Password (OTP)
           </span>{" "}
           verification.
         </p>
-        {/* Illustration
-        <div className="flex justify-center mb-8">
-          <img
-            src="/otp-illustration.svg"
-            alt="2FA OTP Illustration"
-            className="w-48 h-48"
-          />
-        </div> */}
         {/* Buttons */}
         <div className="flex gap-4 justify-center">
           <Link href="/login">

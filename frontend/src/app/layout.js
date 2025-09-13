@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "2FA Auth System",
+  title: "Multi-Factor Authentication System",
   description: "This app simulate the working of Two factor Authentication System",
 };
 

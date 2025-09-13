@@ -15,7 +15,7 @@ const allowedOrigins = [
   "https://auth-app-mohammad-zaid-07.vercel.app",
 ];
 
-// ✅ Use regex to allow all Vercel preview deployments for your project
+// Use regex to allow all Vercel preview deployments for your project
 const vercelPreviewRegex = /^https:\/\/auth-app-.*-mohammad-zaid-07\.vercel\.app$/;
 
 app.use(
@@ -38,7 +38,7 @@ app.use(
   })
 );
 
-// ✅ Handle preflight explicitly
+// Handle preflight explicitly
 app.options("*", cors());
 
 app.use(cookieParser());

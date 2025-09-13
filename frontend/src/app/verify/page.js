@@ -12,6 +12,7 @@ export default function VerifyPage() {
   const [emailFromQuery, setEmailFromQuery] = useState("");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -30,7 +31,6 @@ export default function VerifyPage() {
     setLoading(true);
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const res = await fetch(`${API_URL}/api/auth/match-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ export default function VerifyPage() {
       const data = await res.json();
 
       if (res.ok) {
-        router.push("/dashboard");
+        router.push(`/verify-color-password?email=${emailFromQuery}`);
       } else {
         alert(data.message || "Invalid OTP. Please try again.");
       }
@@ -84,8 +84,8 @@ export default function VerifyPage() {
           disabled={loading}
           text={loading ? "Verifying..." : "Verify OTP"}
           className={`w-full mt-4 py-3 rounded-xl shadow-md transition cursor-pointer ${loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-indigo-600 hover:bg-indigo-700 text-white"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700 text-white"
             }`}
         />
       </form>
